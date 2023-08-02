@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { deleteDeck, listDecks } from "../utils/api/index.js";
+import CreateDeck from "./CreateDeck.js";
 
 function Home() {
   const mountedRef = useRef(false);
@@ -85,11 +86,16 @@ function Home() {
     </div>
   ));
 
-  return decks ? (
-    <React.Fragment>{styledDecks}</React.Fragment>
-  ) : (
-    <p>Loading...</p>
-  );
+  return (
+    <React.Fragment>
+      <CreateDeck />
+      {decks ? (
+        <React.Fragment>{styledDecks}</React.Fragment>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </React.Fragment>
+  );  
 }
 
 export default Home;
