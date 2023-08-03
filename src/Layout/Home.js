@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { deleteDeck, listDecks } from "../utils/api/index.js";
 import CreateDeck from "./CreateDeck.js";
@@ -6,6 +6,7 @@ import CreateDeck from "./CreateDeck.js";
 function Home() {
   const mountedRef = useRef(false);
   const [decks, setDecks] = useState([]);
+  const [showCreateForm, setShowCreateForm] = useState(false); // State to track whether the form is visible
   const history = useHistory();
 
   useEffect(() => {
@@ -42,6 +43,10 @@ function Home() {
       await deleteDeck(deckId);
       history.go(0);
     }
+  };
+
+  const toggleCreateForm = () => {
+    setShowCreateForm((prevValue) => !prevValue);
   };
 
   const styledDecks = decks.map((deck) => (
@@ -88,14 +93,23 @@ function Home() {
 
   return (
     <React.Fragment>
-      <CreateDeck />
+      {showCreateForm ? (
+        <CreateDeck />
+      ) : (
+        <Link to="#" onClick={toggleCreateForm}>
+          <button className="btn btn-primary">
+            <i className="fas fa-plus"></i> Create Deck
+          </button>
+        </Link>
+      )}
+
       {decks ? (
         <React.Fragment>{styledDecks}</React.Fragment>
       ) : (
         <p>Loading...</p>
       )}
     </React.Fragment>
-  );  
+  );
 }
 
 export default Home;
