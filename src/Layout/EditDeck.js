@@ -23,7 +23,7 @@ function EditDeck() {
       try {
         const loadedDeck = await readDeck(deckId, abortController.signal);
         if (mountedRef.current) {
-          setEditDeckFormData(() => loadedDeck);
+          setEditDeckFormData(loadDeck);
         }
       } catch (error) {
         if (error.name !== "AbortError") {
@@ -94,7 +94,7 @@ function EditDeck() {
             rows="5"
             placeholder="Brief description of the deck"
             onChange={changeHandler}
-            value={editDeckFormData.description}
+            defaultValue={editDeckFormData.description}
             required
           ></textarea>
         </div>
